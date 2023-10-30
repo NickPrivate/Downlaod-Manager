@@ -1,6 +1,9 @@
 #include <iostream>
 #include <thread>
-#include <semaphore>
+#include <semaphore.h>
+#include <string>
+#include <vector>
+#include <fstream>
 
 
 #define num_threads 10
