@@ -34,6 +34,8 @@ void ThreadHandler(sem_t* semaphore, const std::string& URL, const std::string& 
  
     std::cout << "elapsed time: " << elapsed_seconds.count() << "s" << std::endl;
 
+    sem_post(semaphore);
+
 }
 
 
@@ -41,7 +43,17 @@ void ThreadHandler(sem_t* semaphore, const std::string& URL, const std::string& 
 
 int main(){
 
+    sem_t semaphore;
+    sem_init(&semaphore, 0, concurrent_downloads);
 
+    std::vector<std::string> URL = {"www.facebook.com/download", "www.roblox.com/download", "www.vscode.com/download",
+    "www.discord.com/download", "www.spotify.com/download", "www.steam.com/download", "www.logitech.com/ghub/download",
+    "www.razer.com/download", "www.shutter.com/download","www.minecraft.com/download"};
+    
+    std::vector<std::string> fileName = {"facebook", "roblox", "vscode","discord", "spotify", "steam", "logitech", "razer",
+    "shutter", "minecraft"};
+
+    std::vector
 
 
 
