@@ -6,6 +6,7 @@
 #include <fstream>
 #include <chrono>
 #include <ctime>
+#include <curl/curl.h>
 
 
 #define num_threads 10
@@ -17,7 +18,15 @@ struct Download_Stats {
     bool downloadStatus;
 };
 
+size_t PreDownload(void* contents, size_t size, size_t nmemb, std::ofstream* file) {
+    size_t total_size = size * nmemb;
+    file->write(static_cast<char*>(contents), total_size);
+    return total_size;
+}
+
+
 void DownloadFile (const std::string& URL, const std::string& fileName){
+    
 
 }
 
@@ -53,7 +62,7 @@ int main(){
     std::vector<std::string> fileName = {"facebook", "roblox", "vscode","discord", "spotify", "steam", "logitech", "razer",
     "shutter", "minecraft"};
 
-    std::vector
+
 
 
 
