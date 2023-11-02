@@ -6,8 +6,8 @@
 #include <fstream>
 #include <chrono>
 
-#define num_threads 10
-#define concurrent_downloads 6
+const int num_threads = 10;
+const int concurrent_downloads = 6;
 
 struct Download_Stats {
     std::string fileName;
@@ -64,8 +64,23 @@ int main(){
     "minecraft"
     };
 
+    std::vector<Download_Stats> allDownloads(num_threads);
 
+    std::vector<std::thread> threads;
+    for (int i = 0; i < num_threads; ++i){
 
+        threads.push_back(std::thread(ThreadHandler, &semaphore, URL[i], fileName[i], std::ref(allDownloads[i])));
+
+    }
+
+    for (auto& thread: threads){
+        thread.join();
+    }
+
+    for (Download_Stats& stats: allDownloads){
+        std::cout << "File: " << stats.fileName << " Download Time: " << stats.downloadTime
+        << " Status: " << (stats.downloadStatus ? "Success" : "Failure") << std::endl;
+    }
 
     return 0;
 }
