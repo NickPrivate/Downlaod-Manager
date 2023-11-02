@@ -25,7 +25,7 @@ size_t PreDownload(void* contents, size_t size, size_t nmemb, std::ofstream* fil
 }
 
 
-void DownloadFile (const std::string& URL, const std::string& fileName){
+void DownloadFile(const std::string& URL, const std::string& fileName){
     
 
 }
