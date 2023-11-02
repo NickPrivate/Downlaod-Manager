@@ -64,21 +64,10 @@ void DownloadFile(const std::string& URL, const std::string& fileName, Download_
     }
 }
 
-void ThreadHandler(sem_t* semaphore, const std::string& URL, const std::string& fileName, Download_Stats& downloadStats){
-
+void ThreadHandler(sem_t* semaphore, const std::string& URL, const std::string& fileName, Download_Stats& downloadStats) {
     sem_wait(semaphore);
-
-    auto start = std::chrono::system_clock::now();
-    DownloadFile(URL,fileName, downloadStats);
-    auto end = std::chrono::system_clock::now();
-
-    std::chrono::duration<double> elapsed_seconds = end-start;
-    std::time_t end_time = std::chrono::system_clock::to_time_t(end);
- 
-    std::cout << "elapsed time: " << elapsed_seconds.count() << "s" << std::endl;
-
+    DownloadFile(URL, fileName, downloadStats);
     sem_post(semaphore);
-
 }
 
 
