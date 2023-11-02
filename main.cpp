@@ -69,7 +69,7 @@ void ThreadHandler(sem_t* semaphore, const std::string& URL, const std::string& 
     sem_wait(semaphore);
 
     auto start = std::chrono::system_clock::now();
-    DownloadFile(URL,fileName);
+    DownloadFile(URL,fileName, downloadStats);
     auto end = std::chrono::system_clock::now();
 
     std::chrono::duration<double> elapsed_seconds = end-start;
