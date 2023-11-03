@@ -25,31 +25,35 @@ struct Download_Stats {
 
 // This function handles the logic for generating download time and giving each download, their respected stats
 void ThreadHandler(sem_t* semaphore, const std::string& URL, const std::string& fileName, Download_Stats& downloadStats) {
-
-    // semaphore prevents the threads from executing during each other's critical section
     sem_wait(semaphore);
 
-
-    // create a random number generator for download times
     std::random_device rd;
     std::mt19937 gen(rd());
-    std::uniform_real_distribution<float> downladTimeTotal(5.0, 15.0);
+    std::uniform_real_distribution<float> downloadTimeTotal(5.0, 15.0);
+    float randomDownloadTime = downloadTimeTotal(gen);
 
-    // generate a random download time
-    float randomDownloadTime = downladTimeTotal(gen);
+    // Introduce a random chance of download failure
+    std::uniform_real_distribution<float> failureProbability(0.0, 1.0);
+    float randomFailureChance = failureProbability(gen);
 
-    // simulate a download delay
+    // Simulate a download delay
     std::this_thread::sleep_for(std::chrono::seconds(static_cast<int>(randomDownloadTime)));
 
-    // populate the data for each thread's download stats
-    downloadStats.downloadStatus = true;
-    downloadStats.fileName = fileName;
-    downloadStats.downloadTime = randomDownloadTime;
-    downloadStats.URL = URL;
+    // Check if the download is successful or a failure
+    if (randomFailureChance < 0.2) {
+        downloadStats.downloadStatus = false; // Simulate download failure
+        downloadStats.fileName = fileName;
+        downloadStats.downloadTime = 0.0;  // Set download time to 0 in case of failure
+        downloadStats.URL = URL;
+    } else {
+        downloadStats.downloadStatus = true; // Download is successful
+        downloadStats.fileName = fileName;
+        downloadStats.downloadTime = randomDownloadTime;
+        downloadStats.URL = URL;
+    }
 
     sem_post(semaphore);
 }
-
 
 
 
